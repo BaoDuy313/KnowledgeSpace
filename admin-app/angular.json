@@ -7,6 +7,7 @@
             "root": "",
             "sourceRoot": "src",
             "projectType": "application",
+            "prefix": "app",
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
@@ -16,10 +17,20 @@
                         "main": "src/main.ts",
                         "tsConfig": "src/tsconfig.app.json",
                         "polyfills": "src/polyfills.ts",
-                        "assets": ["src/assets", "src/favicon.ico"],
-                        "styles": ["node_modules/font-awesome/css/font-awesome.css", "src/styles/app.scss"],
-                        "scripts": ["node_modules/chart.js/dist/Chart.js"],
-                        "allowedCommonJsDependencies": ["chart.js"],
+                        "assets": [
+                            "src/assets",
+                            "src/favicon.ico"
+                        ],
+                        "styles": [
+                            "node_modules/font-awesome/css/font-awesome.css",
+                            "src/styles/app.scss"
+                        ],
+                        "scripts": [
+                            "node_modules/chart.js/dist/Chart.js"
+                        ],
+                        "allowedCommonJsDependencies": [
+                            "chart.js"
+                        ],
                         "aot": false,
                         "vendorChunk": true,
                         "extractLicenses": false,
@@ -79,9 +90,17 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.spec.json",
                         "karmaConfig": "src/karma.conf.js",
-                        "scripts": ["node_modules/chart.js/dist/Chart.js"],
-                        "styles": ["node_modules/font-awesome/css/font-awesome.css", "src/styles/app.scss"],
-                        "assets": ["src/assets", "src/favicon.ico"]
+                        "scripts": [
+                            "node_modules/chart.js/dist/Chart.js"
+                        ],
+                        "styles": [
+                            "node_modules/font-awesome/css/font-awesome.css",
+                            "src/styles/app.scss"
+                        ],
+                        "assets": [
+                            "src/assets",
+                            "src/favicon.ico"
+                        ]
                     }
                 }
             }
@@ -108,13 +127,24 @@
     },
     "schematics": {
         "@schematics/angular:component": {
-            "prefix": "app"
+            "style": "scss",
+            "skipTests": true
+        },
+        "@schematics/angular:class": {
+            "skipTests": true
         },
         "@schematics/angular:directive": {
-            "prefix": "app"
+            "prefix": "app",
+            "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+            "skipTests": true
+        },
+        "@schematics/angular:service": {
+            "skipTests": true
         }
     },
     "cli": {
-      "analytics": "0ccfd754-79ab-4bf6-b9ef-ef066366d8c7"
+        "analytics": "0ccfd754-79ab-4bf6-b9ef-ef066366d8c7"
     }
 }
