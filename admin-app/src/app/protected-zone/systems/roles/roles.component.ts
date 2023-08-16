@@ -3,8 +3,8 @@ import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RolesService, NotificationService } from '@app/shared/services';
 import { Pagination, Role } from '@app/shared/models';
-import { MessageConstants } from '../constants';
 import { RolesDetailComponent } from './roles-detail/roles-detail.component';
+import { MessageConstants } from '@app/shared/constants';
 
 @Component({
   selector: 'app-roles',
@@ -28,9 +28,8 @@ export class RolesComponent implements OnInit, OnDestroy {
   public items: any[];
   public selectedItems = [];
   constructor(private rolesService: RolesService,
-    private modalService: BsModalService,
-    //private notificationService: NotificationService
-    ) { }
+    //private notificationService: NotificationService,
+    private modalService: BsModalService) { }
 
   ngOnInit(): void {
     this.loadData();

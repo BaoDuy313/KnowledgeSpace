@@ -4,7 +4,7 @@ import { NotificationService } from '@app/shared/services';
 import { RolesService } from '@app/shared/services/roles.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { MessageConstants } from '../../constants';
+import { MessageConstants } from '@app/shared/constants';
 
 @Component({
   selector: 'app-roles-detail',
@@ -15,7 +15,7 @@ export class RolesDetailComponent implements OnInit, OnDestroy {
   constructor(
     public bsModalRef: BsModalRef,
     private rolesService: RolesService,
-   // private notificationService: NotificationService,
+    //private notificationService: NotificationService,
     private fb: FormBuilder) {
   }
 
@@ -80,7 +80,7 @@ export class RolesDetailComponent implements OnInit, OnDestroy {
       this.subscription.add(this.rolesService.update(this.entityId, this.entityForm.getRawValue())
         .subscribe(() => {
           this.savedEvent.emit(this.entityForm.value);
-         // this.notificationService.showSuccess(MessageConstants.UPDATED_OK_MSG);
+          //this.notificationService.showSuccess(MessageConstants.UPDATED_OK_MSG);
           this.btnDisabled = false;
           setTimeout(() => { this.blockedPanel = false; this.btnDisabled = false; }, 1000);
         }, error => {
@@ -90,7 +90,7 @@ export class RolesDetailComponent implements OnInit, OnDestroy {
       this.subscription.add(this.rolesService.add(this.entityForm.getRawValue())
         .subscribe(() => {
           this.savedEvent.emit(this.entityForm.value);
-         // this.notificationService.showSuccess(MessageConstants.CREATED_OK_MSG);
+          //this.notificationService.showSuccess(MessageConstants.CREATED_OK_MSG);
           this.btnDisabled = false;
           setTimeout(() => { this.blockedPanel = false; this.btnDisabled = false; }, 1000);
         }, error => {
