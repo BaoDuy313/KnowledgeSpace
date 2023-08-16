@@ -4,8 +4,10 @@ import { AuthGuard } from './shared';
 
 const routes: Routes = [
     {
-        path: '',
-        loadChildren: () => import('./protected-zone/layout.module').then((m) => m.ProtecttedZoneModule),
+        path: '', loadChildren: () => import('./protected-zone/layout.module').then(m => m.ProtectedZoneModule),
+        data: {
+            functionCode: 'DASHBOARD'
+        },
         canActivate: [AuthGuard]
     },
     { path: 'login', loadChildren: () => import('./login/login.module').then((m) => m.LoginModule) },

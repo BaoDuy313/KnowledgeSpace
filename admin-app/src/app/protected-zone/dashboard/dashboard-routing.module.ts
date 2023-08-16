@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
+import { AuthGuard } from '@app/shared';
 
 const routes: Routes = [
     {
-        path: '',
-        component: DashboardComponent
+        path: '', component: DashboardComponent,
+        data: {
+            functionCode: 'DASHBOARD'
+        },
+        canActivate: [AuthGuard]
     }
 ];
 
@@ -13,4 +17,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule {
+}

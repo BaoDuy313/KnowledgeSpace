@@ -12,4 +12,4 @@ import { LayoutComponent } from './layout.component';
     imports: [CommonModule, LayoutRoutingModule, TranslateModule, NgbDropdownModule],
     declarations: [LayoutComponent, SidebarComponent, HeaderComponent]
 })
-export class ProtecttedZoneModule { }
+export class ProtectedZoneModule { }
