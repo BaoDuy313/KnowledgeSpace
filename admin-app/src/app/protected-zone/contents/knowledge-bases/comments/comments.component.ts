@@ -1,23 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MessageConstants } from '@app/shared/constants';
-import { CategoriesDetailComponent } from './categories-detail/categories-detail.component';
-import { CategoriesService, NotificationService } from '@app/shared/services';
-import { Pagination, Category } from '@app/shared/models';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { BaseComponent } from '@app/protected-zone/base/base.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Pagination, Comment } from '@app/shared/models';
+import { NotificationService, CommentsService } from '@app/shared/services';
+import { MessageConstants } from '@app/shared/constants';
+import { CommentsDetailComponent } from '../comments-detail/comments-detail.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.css']
+  selector: 'app-comments',
+  templateUrl: './comments.component.html',
+  styleUrls: ['./comments.component.scss']
 })
-export class CategoriesComponent extends BaseComponent implements OnInit, OnDestroy {
-
+export class CommentsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   // Default
   public bsModalRef: BsModalRef;
   public blockedPanel = false;
+  public entityId: number;
   /**
    * Paging
    */
@@ -29,28 +29,29 @@ export class CategoriesComponent extends BaseComponent implements OnInit, OnDest
   // Role
   public items: any[];
   public selectedItems = [];
-  constructor(private categoriesService: CategoriesService,
+  constructor(private commentsService: CommentsService,
     // private notificationService: NotificationService,
-    private modalService: BsModalService) {
-      super('CONTENT_CATEGORY');
-     }
+    private activeRoute: ActivatedRoute,
+    private modalService: BsModalService) { }
 
   ngOnInit(): void {
-    super.ngOnInit();
+    this.subscription.add(this.activeRoute.params.subscribe(params => {
+      this.entityId = params['knowledgeBaseId'];
+    }));
     this.loadData();
   }
 
   loadData(selectedId = null) {
     this.blockedPanel = true;
-    this.subscription.add(this.categoriesService.getAllPaging(this.keyword, this.pageIndex, this.pageSize)
-      .subscribe((response: Pagination<Category>) => {
+    this.subscription.add(this.commentsService.getAllPaging(this.entityId, this.keyword, this.pageIndex, this.pageSize)
+      .subscribe((response: Pagination<Comment>) => {
         this.processLoadData(selectedId, response);
         setTimeout(() => { this.blockedPanel = false; }, 1000);
       }, error => {
         setTimeout(() => { this.blockedPanel = false; }, 1000);
       }));
   }
-  private processLoadData(selectedId = null, response: Pagination<Category>) {
+  private processLoadData(selectedId = null, response: Pagination<Comment>) {
     this.items = response.items;
     this.pageIndex = this.pageIndex;
     this.pageSize = this.pageSize;
@@ -68,19 +69,7 @@ export class CategoriesComponent extends BaseComponent implements OnInit, OnDest
     this.loadData();
   }
 
-  showAddModal() {
-    this.bsModalRef = this.modalService.show(CategoriesDetailComponent,
-      {
-        class: 'modal-lg',
-        backdrop: 'static'
-      });
-    this.bsModalRef.content.savedEvent.subscribe((response) => {
-      this.bsModalRef.hide();
-      this.loadData();
-      this.selectedItems = [];
-    });
-  }
-  showEditModal() {
+  showDetailModel() {
     if (this.selectedItems.length === 0) {
       // this.notificationService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
       return;
@@ -88,17 +77,12 @@ export class CategoriesComponent extends BaseComponent implements OnInit, OnDest
     const initialState = {
       entityId: this.selectedItems[0].id
     };
-    this.bsModalRef = this.modalService.show(CategoriesDetailComponent,
+    this.bsModalRef = this.modalService.show(CommentsDetailComponent,
       {
         initialState: initialState,
         class: 'modal-lg',
         backdrop: 'static'
       });
-
-   this.subscription.add( this.bsModalRef.content.savedEvent.subscribe((response) => {
-    this.bsModalRef.hide();
-    this.loadData(response.id);
-  }));
   }
 
   deleteItems() {
@@ -108,7 +92,7 @@ export class CategoriesComponent extends BaseComponent implements OnInit, OnDest
   }
   deleteItemsConfirm(id) {
     this.blockedPanel = true;
-    this.subscription.add(this.categoriesService.delete(id).subscribe(() => {
+    this.subscription.add(this.commentsService.delete(this.entityId, id).subscribe(() => {
       // this.notificationService.showSuccess(MessageConstants.DELETED_OK_MSG);
       this.loadData();
       this.selectedItems = [];

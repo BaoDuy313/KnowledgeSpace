@@ -34,7 +34,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
                     CreateDate = c.CreateDate,
                     KnowledgeBaseId = c.KnowledgeBaseId,
                     LastModifiedDate = c.LastModifiedDate,
-                    OwnwerUserId = c.OwnwerUserId
+                    OwnerUserId = c.OwnerUserId
                 })
                 .ToListAsync();
 
@@ -61,7 +61,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
                 CreateDate = comment.CreateDate,
                 KnowledgeBaseId = comment.KnowledgeBaseId,
                 LastModifiedDate = comment.LastModifiedDate,
-                OwnwerUserId = comment.OwnwerUserId
+                OwnerUserId = comment.OwnerUserId
             };
 
             return Ok(commentVm);
@@ -76,7 +76,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
             {
                 Content = request.Content,
                 KnowledgeBaseId = request.KnowledgeBaseId,
-                OwnwerUserId = string.Empty/*TODO: GET USER FROM CLAIM*/,
+                OwnerUserId = string.Empty/*TODO: GET USER FROM CLAIM*/,
             };
             _context.Comments.Add(comment);
 
@@ -106,7 +106,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
             var comment = await _context.Comments.FindAsync(commentId);
             if (comment == null)
                 return BadRequest(new ApiBadRequestResponse($"Cannot found comment with id: {commentId}"));
-            if (comment.OwnwerUserId != User.Identity.Name)
+            if (comment.OwnerUserId != User.Identity.Name)
                 return Forbid();
 
             comment.Content = request.Content;
@@ -148,7 +148,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
                     CreateDate = comment.CreateDate,
                     KnowledgeBaseId = comment.KnowledgeBaseId,
                     LastModifiedDate = comment.LastModifiedDate,
-                    OwnwerUserId = comment.OwnwerUserId
+                    OwnerUserId = comment.OwnerUserId
                 };
                 return Ok(commentVm);
             }
