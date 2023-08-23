@@ -12,7 +12,13 @@ namespace KnowledgeSpace.ViewModels.Contents
 
         public int KnowledgeBaseId { get; set; }
 
+        public string KnowledgeBaseTitle { get; set; }
+
+        public string KnowledgeBaseSeoAlias { get; set; }
+
         public string OwnerUserId { get; set; }
+
+        public string OwnerName { get; set; }
 
         public DateTime CreateDate { get; set; }
 
