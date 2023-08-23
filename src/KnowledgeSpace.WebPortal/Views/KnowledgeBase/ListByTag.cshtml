@@ -1,7 +1,7 @@
-﻿@model SearchKnowledgeBaseViewModel
+﻿@model ListByTagIdViewModel
 @{
-    ViewData["Title"] = "Kết quả tìm kiếm cho từ khóa " + Model.Keyword;
     Layout = "_SubLayout";
+    ViewData["Title"] = Model.LabelVm.Name;
 }
 
 <!-- start of page content -->
@@ -35,3 +35,4 @@
     @(await Component.InvokeAsync("Pager", Model.Data))
 </div>
 <!-- end of page content -->
+
